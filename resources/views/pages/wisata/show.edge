@@ -1,0 +1,26 @@
+@layout('layouts/main')
+@section('content')
+  <h1>{{ wisata.nama }}</h1>
+  <img src="{{ wisata.gambar }}" alt="{{ wisata.nama }}" style="max-width: 400px;" />
+  <p><strong>Kategori:</strong> {{ wisata.kategori.namaKategori }}</p>
+  <p><strong>Kota:</strong> {{ wisata.kota.namaKota }}</p>
+  <p><strong>Biaya Masuk:</strong> Rp {{ wisata.biayaMasuk }}</p>
+  <p><strong>Deskripsi:</strong> {{ wisata.deskripsi }}</p>
+
+  <hr>
+  <h2>Ulasan</h2>
+  @if(wisata.ulasan.length === 0)
+    <p>Belum ada ulasan.</p>
+  @else
+    <ul>
+      @each(u in wisata.ulasan)
+        <li>
+          <strong>{{ u.user.nama }}</strong> - Rating: {{ u.rating }}/5<br>
+          <em>{{ u.komentar }}</em>
+        </li>
+      @endeach
+    </ul>
+  @endif
+
+  <a href="/ulasan/form?wisataId={{ wisata.id }}">+ Tulis Ulasan</a>
+@endsection

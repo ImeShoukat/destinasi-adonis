@@ -1,0 +1,10 @@
+@layout('layouts/main')
+@section('content')
+  <h1>Tambah Kota</h1>
+  <form method="POST" action="/kota">
+    @csrf()
+    <label>Nama Kota:</label>
+    <input type="text" name="namaKota" />
+    <button type="submit">Simpan</button>
+  </form>
+@endsection

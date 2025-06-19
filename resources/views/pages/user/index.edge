@@ -1,0 +1,9 @@
+@layout('layouts/main')
+@section('content')
+  <h1>Data Pengguna</h1>
+  <ul>
+    @each(item in data)
+      <li>{{ item.nama }} - {{ item.email }}</li>
+    @endeach
+  </ul>
+@endsection

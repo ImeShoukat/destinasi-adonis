@@ -1,0 +1,11 @@
+@layout('layouts/main')
+@section('content')
+  <h1>Edit Kategori</h1>
+  <form method="POST" action="/kategori/{{ kategori.id }}">
+    @csrf()
+    @method('PUT')
+    <label>Nama Kategori:</label>
+    <input type="text" name="namaKategori" value="{{ kategori.namaKategori }}" />
+    <button type="submit">Update</button>
+  </form>
+@endsection

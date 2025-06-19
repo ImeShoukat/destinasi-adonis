@@ -1,0 +1,12 @@
+@layout('layouts/main')
+@section('content')
+  <h1>Hasil Filter Wisata</h1>
+  <ul>
+    @each(item in wisata)
+      <li>
+        <strong>{{ item.nama }}</strong> - Rp {{ item.biayaMasuk }} - {{ item.kota.namaKota }}<br>
+        <a href="/wisata/{{ item.id }}">Lihat Detail</a>
+      </li>
+    @endeach
+  </ul>
+@endsection

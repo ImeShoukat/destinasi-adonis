@@ -1,0 +1,18 @@
+@layout('layouts/main')
+@section('content')
+  <h1>Data Kota</h1>
+  <a href="/kota/create">+ Tambah Kota</a>
+  <ul>
+    @each(item in data)
+      <li>
+        {{ item.namaKota }}
+        <a href="/kota/{{ item.id }}/edit">Edit</a>
+        <form action="/kota/{{ item.id }}" method="POST">
+          @csrf()
+          @method('DELETE')
+          <button type="submit">Hapus</button>
+        </form>
+      </li>
+    @endeach
+  </ul>
+@endsection

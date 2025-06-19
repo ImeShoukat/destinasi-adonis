@@ -1,0 +1,11 @@
+@layout('layouts/main')
+@section('content')
+  <h1>Edit Kota</h1>
+  <form method="POST" action="/kota/{{ kota.id }}">
+    @csrf()
+    @method('PUT')
+    <label>Nama Kota:</label>
+    <input type="text" name="namaKota" value="{{ kota.namaKota }}" />
+    <button type="submit">Update</button>
+  </form>
+@endsection

@@ -1,0 +1,23 @@
+@layout('layouts/main')
+@section('content')
+  <h2>Beri Ulasan untuk {{ wisata.nama }}</h2>
+  <form method="POST" action="/ulasan">
+    @csrf()
+    <input type="hidden" name="wisataId" value="{{ wisata.id }}" />
+
+    <label>Nama Pengguna:</label>
+    <select name="userId">
+      @each(u in users)
+        <option value="{{ u.id }}">{{ u.nama }}</option>
+      @endeach
+    </select>
+
+    <label>Rating (1–5):</label>
+    <input type="number" name="rating" min="1" max="5" />
+
+    <label>Komentar:</label>
+    <textarea name="komentar"></textarea>
+
+    <button type="submit">Kirim Ulasan</button>
+  </form>
+@endsection

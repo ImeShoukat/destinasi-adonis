@@ -7,13 +7,25 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
       table.string('nama_wisata', 255).notNullable()
-      table.foreign('kategori_id').references('id').inTable('kategoris').onDelete('CASCADE')
-      table.foreign('kota_id').references('id').inTable('kotas').onDelete('CASCADE')
       table.text('deskripsi').notNullable()
       table.integer('biaya_masuk').notNullable()
       table.string('gambar').notNullable()
-      table.timestamp('created_at')
-      table.timestamp('updated_at')
+      table.integer('kategori_id').unsigned().notNullable()
+      table.integer('kota_id').unsigned().notNullable()
+      table
+        .foreign('kategori_id')
+        .references('id')
+        .inTable('kategoris')
+        .onDelete('CASCADE')
+
+      table
+        .foreign('kota_id')
+        .references('id')
+        .inTable('kotas')
+        .onDelete('CASCADE')
+
+      table.timestamp('created_at', { useTz: true })
+      table.timestamp('updated_at', { useTz: true })
     })
   }
 

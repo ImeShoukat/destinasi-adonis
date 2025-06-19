@@ -1,0 +1,12 @@
+@layout('layouts/main')
+@section('content')
+  <h1>Wisata Terpopuler</h1>
+  <ul>
+    @each(item in wisataPopuler)
+      <li>
+        <strong>{{ item.nama }}</strong> - Rata-rata rating: {{ item.$extras.rata_rating ?? 'Belum ada' }}<br>
+        <a href="/wisata/{{ item.id }}">Lihat Detail</a>
+      </li>
+    @endeach
+  </ul>
+@endsection
