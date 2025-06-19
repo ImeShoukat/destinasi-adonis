@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, column, dateColumn } from '@adonisjs/lucid/orm'
 import { belongsTo } from '@adonisjs/lucid/orm'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 
@@ -29,4 +29,13 @@ export default class Wisata extends BaseModel {
 
   @belongsTo(() => Kategori)
   declare kategori: BelongsTo<typeof Kategori>
+
+  @column()
+  declare gambar: string
+
+  @dateColumn({ autoCreate: true })
+  declare createdAt: DateTime
+
+  @dateColumn({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
 }
