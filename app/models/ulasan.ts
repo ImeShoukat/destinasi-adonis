@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@adonisjs/lucid/orm'
-import { BelongsTo, belongsTo } from '@adonisjs/lucid/orm'
+import { belongsTo } from '@adonisjs/lucid/orm'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 
 import Wisata from './wisata.js'
 import User from './user.js'
@@ -8,7 +9,7 @@ import User from './user.js'
 export default class Ulasan extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
-  
+
   @column()
   declare ulasan: string
   @column()

@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@adonisjs/lucid/orm'
-import { BelongsTo, belongsTo } from '@adonisjs/lucid/orm'
+import { belongsTo } from '@adonisjs/lucid/orm'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 
 import Kota from './kota.js'
 import Kategori from './kategori.js'
@@ -23,7 +24,6 @@ export default class Wisata extends BaseModel {
 
   @column()
   declare biayaMasuk: number
-
   @belongsTo(() => Kota)
   declare kota: BelongsTo<typeof Kota>
 

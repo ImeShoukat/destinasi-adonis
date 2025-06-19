@@ -1,0 +1,34 @@
+@layout('layouts/main')
+@section('content')
+  <h1>Tambah Wisata</h1>
+  <form method="POST" action="/wisata">
+    @csrf()
+    <label>Nama:</label>
+    <input type="text" name="nama" />
+
+    <label>Deskripsi:</label>
+    <textarea name="deskripsi"></textarea>
+
+    <label>Kota:</label>
+    <select name="kotaId">
+      @each(k in kota)
+        <option value="{{ k.id }}">{{ k.namaKota }}</option>
+      @endeach
+    </select>
+
+    <label>Kategori:</label>
+    <select name="kategoriId">
+      @each(k in kategori)
+        <option value="{{ k.id }}">{{ k.namaKategori }}</option>
+      @endeach
+    </select>
+
+    <label>Biaya Masuk:</label>
+    <input type="number" name="biayaMasuk" />
+
+    <label>Gambar:</label>
+    <input type="text" name="gambar" placeholder="URL atau path" />
+
+    <button type="submit">Simpan</button>
+  </form>
+@endsection

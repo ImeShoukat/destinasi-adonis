@@ -1,0 +1,19 @@
+@layout('layouts/main')
+@section('content')
+  <h1>Data Wisata</h1>
+  <a href="/wisata/create">+ Tambah Wisata</a>
+  <ul>
+    @each(item in allWisata)
+      <li>
+        <strong>{{ item.nama }}</strong> - {{ item.kota.namaKota }} ({{ item.kategori.namaKategori }})<br>
+        Biaya Masuk: Rp {{ item.biayaMasuk }}<br>
+        <a href="/wisata/{{ item.id }}/edit">Edit</a>
+        <form action="/wisata/{{ item.id }}" method="POST">
+          @csrf()
+          @method('DELETE')
+          <button type="submit">Hapus</button>
+        </form>
+      </li>
+    @endeach
+  </ul>
+@endsection
