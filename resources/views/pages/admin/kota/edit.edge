@@ -1,0 +1,31 @@
+@component('components/layout/app', { title: 'Admin: Edit Kota' })
+  @slot('main')
+    <div class="container mt-4">
+      <h1 class="mb-4">Edit Kota</h1>
+
+      <form action="{{ route('admin.kota.update', { id: kota.id }) }}?_method=PUT" method="POST" class="card shadow-sm p-4">
+        {{ csrfField() }}
+
+        <div class="mb-3">
+          <label for="namaKota" class="form-label">Nama Kota</label>
+          <input
+            type="text"
+            id="namaKota"
+            name="namaKota"
+            class="form-control {{ errors?.namaKota ? 'is-invalid' : '' }}"
+            value="{{ old('namaKota', kota.namaKota) }}"
+            required
+          >
+          @if(errors?.namaKota)
+            <div class="invalid-feedback">{{ errors.namaKota }}</div>
+          @endif
+        </div>
+
+        <div class="d-flex justify-content-between">
+          <button type="submit" class="btn btn-primary">Update</button>
+          <a href="{{ route('admin.kota.index') }}" class="btn btn-secondary">Batal</a>
+        </div>
+      </form>
+    </div>
+  @endslot
+@endcomponent

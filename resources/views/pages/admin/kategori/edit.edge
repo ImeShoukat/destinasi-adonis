@@ -1,0 +1,31 @@
+@component('components/layout/app', { title: 'Admin: Edit Kategori' })
+  @slot('main')
+    <div class="container mt-4" style="max-width: 600px;">
+      <h1 class="mb-4">Edit Kategori</h1>
+
+      <form action="{{ route('admin.kategori.update', { id: kategori.id }) }}?_method=PUT" method="POST" class="card shadow-sm p-4">
+        {{ csrfField() }}
+
+        <div class="mb-3">
+          <label for="namaKategori" class="form-label">Nama Kategori</label>
+          <input
+            type="text"
+            id="namaKategori"
+            name="namaKategori"
+            class="form-control {{ errors?.namaKategori ? 'is-invalid' : '' }}"
+            value="{{ old('namaKategori', kategori.namaKategori) }}"
+            required
+          >
+          @if(errors?.namaKategori)
+            <div class="invalid-feedback">{{ errors.namaKategori }}</div>
+          @endif
+        </div>
+
+        <div class="d-flex justify-content-between">
+          <button type="submit" class="btn btn-primary">Update</button>
+          <a href="{{ route('admin.kategori.index') }}" class="btn btn-secondary">Batal</a>
+        </div>
+      </form>
+    </div>
+  @endslot
+@endcomponent

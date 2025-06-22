@@ -1,0 +1,69 @@
+@component('components/layout/app', { title: 'Daftar Wisata' })
+  @slot('main')
+    <h1>Pesonanya Indonesia</h1>
+
+    <div class="card mb-4 shadow-sm">
+      <div class="card-body">
+        <form action="{{ route('wisata.index') }}" method="GET">
+          <h5 class="card-title mb-3">🔍 Filter Wisata</h5>
+
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="kota_id" class="form-label">Filter berdasarkan Kota</label>
+              <select name="kota_id" id="kota_id" class="form-select">
+                <option value="">Semua Kota</option>
+                @each(kota in kotas)
+                  <option value="{{ kota.id }}" {{ filters.kota_id == kota.id ? 'selected' : '' }}>
+                    {{ kota.namaKota }}
+                  </option>
+                @endeach
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label for="biaya_max" class="form-label">Biaya Masuk Maksimal (Rp)</label>
+              <input type="number" name="biaya_max" id="biaya_max" class="form-control"
+                    value="{{ filters.biaya_max || '' }}" placeholder="Contoh: 50000">
+            </div>
+          </div>
+
+          <div class="mt-3 d-flex gap-2">
+            <button type="submit" class="btn btn-primary">
+              <i class="bi bi-search"></i> Cari
+            </button>
+            <a href="{{ route('wisata.index') }}" class="btn btn-outline-secondary">Reset Filter</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+    @each(item in wisatas)
+    <div class="card mb-4 shadow-sm">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <h5 class="card-title mb-2">
+              <a href="{{ route('wisata.show', { id: item.id }) }}" class="text-decoration-none text-dark">
+                {{ item.nama }}
+              </a>
+            </h5>
+            <p class="mb-1">
+              <small><strong>Kategori:</strong> {{ item.kategori.namaKategori }} | 
+              <strong>Lokasi:</strong> {{ item.kota.namaKota }}</small>
+            </p>
+            <p class="mb-1"><strong>Biaya Masuk:</strong> Rp {{ item.biayaMasuk.toLocaleString('id-ID') }}</p>
+            <p class="text-muted small mb-2">{{ item.deskripsi.substring(0, 120) }}...</p>
+          </div>
+          <a href="{{ route('wisata.show', { id: item.id }) }}" class="btn btn-outline-primary btn-sm mt-1">
+            Lihat Detail
+          </a>
+        </div>
+      </div>
+    </div>
+  @else
+    <div class="alert alert-warning text-center">Tidak ada data wisata yang cocok dengan filter Anda.</div>
+  @endeach
+
+  @endslot
+@endcomponent

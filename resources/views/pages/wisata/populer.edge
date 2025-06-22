@@ -1,0 +1,28 @@
+@component('components/layout/app', { title: 'Wisata Terpopuler' })
+  @slot('main')
+    <h1>Wisata Terpopuler</h1>
+    <p>Berikut adalah 10 destinasi wisata dengan rating rata-rata tertinggi dari para pengguna.</p>
+
+    @each((item, index) in wisatas)
+      <div class="card mb-4 p-3 shadow-sm">
+        <h2>{{ index + 1 }}. <a href="{{ route('wisata.show', { id: item.id }) }}">{{ item.nama }}</a></h2>
+        <p>
+          <strong>Lokasi:</strong> {{ item.kota?.namaKota || 'Tidak ada data' }} |
+          <strong>Kategori:</strong> {{ item.kategori?.namaKategori || 'Tidak ada data' }}
+        </p>
+        <p>
+          <strong>Rating Rata-rata:</strong>
+          <span style="font-weight: bold; color: #f0ad4e;">
+            {{ Number(item.$extras.ulasans_avg_rating).toFixed(1) }} / 5
+          </span>
+          (dari {{ Number(item.$extras.ulasans_count) }} ulasan)
+        </p>
+        <a href="{{ route('wisata.show', { id: item.id }) }}" class="btn btn-primary mt-2">Lihat Detail</a>
+      </div>
+    @else
+      <div class="card p-3">
+        <p>Belum ada wisata yang memiliki ulasan.</p>
+      </div>
+    @endeach
+  @endslot
+@endcomponent

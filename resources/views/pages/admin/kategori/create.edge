@@ -1,0 +1,31 @@
+@component('components/layout/app', { title: 'Admin: Tambah Kategori' })
+  @slot('main')
+    <div class="container mt-4">
+      <h1 class="mb-4">Tambah Kategori Baru</h1>
+
+      <form action="{{ route('admin.kategori.store') }}" method="POST" class="card shadow-sm p-4">
+        {{ csrfField() }}
+
+        <div class="mb-3">
+          <label for="namaKategori" class="form-label">Nama Kategori</label>
+          <input
+            type="text"
+            id="namaKategori"
+            name="namaKategori"
+            class="form-control {{ errors?.namaKategori ? 'is-invalid' : '' }}"
+            value="{{ old('namaKategori', '') }}"
+            required
+          >
+          @if(errors?.namaKategori)
+            <div class="invalid-feedback">{{ errors.namaKategori }}</div>
+          @endif
+        </div>
+
+        <div class="d-flex justify-content-between">
+          <button type="submit" class="btn btn-primary">Simpan</button>
+          <a href="{{ route('admin.kategori.index') }}" class="btn btn-secondary">Batal</a>
+        </div>
+      </form>
+    </div>
+  @endslot
+@endcomponent

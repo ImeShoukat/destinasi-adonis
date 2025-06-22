@@ -1,0 +1,52 @@
+@component('components/layout/app', { title: 'Admin: Manajemen Wisata' })
+  @slot('main')
+    <div class="container mt-4">
+      <h1 class="mb-4">Manajemen Wisata</h1>
+
+      <div class="mb-3 d-flex gap-2 flex-wrap">
+        <a href="{{ route('admin.wisata.create') }}" class="btn btn-primary">+ Tambah Wisata</a>
+        <a href="{{ route('admin.kota.index') }}" class="btn btn-outline-secondary">Kelola Kota</a>
+        <a href="{{ route('admin.kategori.index') }}" class="btn btn-outline-secondary">Kelola Kategori</a>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped align-middle">
+          <thead class="table-light">
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Nama Wisata</th>
+              <th scope="col">Kota</th>
+              <th scope="col">Kategori</th>
+              <th scope="col">Biaya Masuk</th>
+              <th scope="col" class="text-center">Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            @each(item in wisatas)
+              <tr>
+                <td>{{ item.id }}</td>
+                <td>{{ item.nama }}</td>
+                <td>{{ item.kota.namaKota }}</td>
+                <td>{{ item.kategori.namaKategori }}</td>
+                <td>Rp {{ item.biayaMasuk.toLocaleString('id-ID') }}</td>
+                <td class="text-center">
+                  <div class="d-flex justify-content-center gap-2">
+                    <a href="{{ route('admin.wisata.edit', { id: item.id }) }}" class="btn btn-sm btn-warning">Edit</a>
+                    <form action="{{ route('admin.wisata.destroy', { id: item.id }) }}?_method=DELETE" method="POST" onsubmit="return confirm('Anda yakin ingin menghapus data ini?')">
+                      {{ csrfField() }}
+                      <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+            @else
+              <tr>
+                <td colspan="6" class="text-center text-muted">Tidak ada data wisata.</td>
+              </tr>
+            @endeach
+          </tbody>
+        </table>
+      </div>
+    </div>
+  @endslot
+@endcomponent

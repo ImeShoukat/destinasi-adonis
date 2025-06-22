@@ -1,0 +1,106 @@
+@component('components/layout/app', { title: 'Admin: Edit Wisata' })
+  @slot('main')
+    <div class="container mt-4">
+      <h1 class="mb-4">Edit Wisata</h1>
+
+      <form action="{{ route('admin.wisata.update', { id: wisata.id }) }}?_method=PUT" method="POST" class="card shadow-sm p-4">
+        {{ csrfField() }}
+
+        <div class="mb-3">
+          <label for="nama" class="form-label">Nama Wisata</label>
+          <input
+            type="text"
+            id="nama"
+            name="nama"
+            class="form-control {{ errors?.nama ? 'is-invalid' : '' }}"
+            value="{{ old('nama', wisata.nama) }}"
+            required
+          >
+          @if(errors?.nama)
+            <div class="invalid-feedback">{{ errors.nama }}</div>
+          @endif
+        </div>
+
+        <div class="mb-3">
+          <label for="deskripsi" class="form-label">Deskripsi</label>
+          <textarea
+            name="deskripsi"
+            id="deskripsi"
+            rows="5"
+            class="form-control {{ errors?.deskripsi ? 'is-invalid' : '' }}"
+            required
+          >{{ old('deskripsi', wisata.deskripsi) }}</textarea>
+          @if(errors?.deskripsi)
+            <div class="invalid-feedback">{{ errors.deskripsi }}</div>
+          @endif
+        </div>
+
+        <div class="mb-3">
+          <label for="kategoriId" class="form-label">Kategori</label>
+          <select
+            name="kategoriId"
+            id="kategoriId"
+            class="form-select {{ errors?.kategoriId ? 'is-invalid' : '' }}"
+            required
+          >
+            <option value="">-- Pilih Kategori --</option>
+            @each(item in kategoris)
+              <option
+                value="{{ item.id }}"
+                {{ old('kategoriId', wisata.kategoriId) == item.id ? 'selected' : '' }}
+              >
+                {{ item.namaKategori }}
+              </option>
+            @endeach
+          </select>
+          @if(errors?.kategoriId)
+            <div class="invalid-feedback">{{ errors.kategoriId }}</div>
+          @endif
+        </div>
+
+        <div class="mb-3">
+          <label for="kotaId" class="form-label">Kota</label>
+          <select
+            name="kotaId"
+            id="kotaId"
+            class="form-select {{ errors?.kotaId ? 'is-invalid' : '' }}"
+            required
+          >
+            <option value="">-- Pilih Kota --</option>
+            @each(item in kotas)
+              <option
+                value="{{ item.id }}"
+                {{ old('kotaId', wisata.kotaId) == item.id ? 'selected' : '' }}
+              >
+                {{ item.namaKota }}
+              </option>
+            @endeach
+          </select>
+          @if(errors?.kotaId)
+            <div class="invalid-feedback">{{ errors.kotaId }}</div>
+          @endif
+        </div>
+
+        <div class="mb-4">
+          <label for="biayaMasuk" class="form-label">Biaya Masuk (Rp)</label>
+          <input
+            type="number"
+            id="biayaMasuk"
+            name="biayaMasuk"
+            class="form-control {{ errors?.biayaMasuk ? 'is-invalid' : '' }}"
+            value="{{ old('biayaMasuk', wisata.biayaMasuk) }}"
+            required
+          >
+          @if(errors?.biayaMasuk)
+            <div class="invalid-feedback">{{ errors.biayaMasuk }}</div>
+          @endif
+        </div>
+
+        <div class="d-flex justify-content-between">
+          <button type="submit" class="btn btn-primary">Update</button>
+          <a href="{{ route('admin.wisata.index') }}" class="btn btn-secondary">Batal</a>
+        </div>
+      </form>
+    </div>
+  @endslot
+@endcomponent

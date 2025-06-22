@@ -1,0 +1,91 @@
+@component('components/layout/app', { title: wisata.nama })
+  @slot('main')
+    <div class="card mb-4 p-4 shadow-sm">
+      <h1 class="mb-2">{{ wisata.nama }}</h1>
+      <p>
+        <strong>Kategori:</strong> {{ wisata.kategori.namaKategori }} |
+        <strong>Lokasi:</strong> {{ wisata.kota.namaKota }}
+      </p>
+      <p><strong>Biaya Masuk:</strong> Rp {{ wisata.biayaMasuk.toLocaleString('id-ID') }}</p>
+      @if(wisata.$extras?.ulasans_avg_rating !== null && wisata.$extras?.ulasans_count > 0)
+        <p>
+          <strong>Rating Rata-rata:</strong>
+          <span style="font-weight: bold; color: #f0ad4e;">
+            {{ Number(wisata.$extras.ulasans_avg_rating).toFixed(1) }} / 5
+          </span>
+          <span class="text-muted">(dari {{ wisata.$extras.ulasans_count }} ulasan)</span>
+        </p>
+      @endif
+
+      
+      <h4>Deskripsi</h4>
+      <p>{{ wisata.deskripsi }}</p>
+      
+    </div>
+
+    <div class="card p-4 shadow-sm">
+      <h3 class="mb-3">Ulasan Pengguna</h3>
+
+      @if(auth.user)
+        @if(auth.user.role === 'user')
+          <div class="card mb-4 p-3 border border-primary-subtle bg-light">
+            <h5 class="mb-3">Beri Ulasan Anda</h5>
+            <form action="{{ route('ulasan.store') }}" method="POST">
+              {{ csrfField() }}
+              <input type="hidden" name="wisataId" value="{{ wisata.id }}">
+
+              <div class="mb-3">
+                <label class="form-label">Rating (1-5)</label>
+                <select name="rating" class="form-select" required>
+                  <option value="">-- Beri Rating --</option>
+                  <option value="5">5 - Sangat Baik</option>
+                  <option value="4">4 - Baik</option>
+                  <option value="3">3 - Cukup</option>
+                  <option value="2">2 - Kurang</option>
+                  <option value="1">1 - Buruk</option>
+                </select>
+                @inputError('rating')
+                  <div class="text-danger small mt-1">{{ $message }}</div>
+                @endinputError
+              </div>
+
+              <div class="mb-3">
+                <label for="komentar" class="form-label">Komentar</label>
+                <textarea name="komentar" id="komentar" rows="3" class="form-control"></textarea>
+                @inputError('komentar')
+                  <div class="text-danger small mt-1">{{ $message }}</div>
+                @endinputError
+              </div>
+
+              <button type="submit" class="btn btn-primary">Kirim Ulasan</button>
+            </form>
+          </div>
+        @endif
+      @else
+        <div class="alert alert-info">
+          <a href="{{ route('auth.login.show') }}" class="fw-bold">Login sebagai user</a> untuk memberikan ulasan.
+        </div>
+      @endif
+
+      <div class="ulasan-list">
+        @each(ulasan in wisata.ulasans)
+          <div class="card mb-3 p-3 border-start border-warning border-3">
+            <div class="d-flex justify-content-between mb-1">
+              <strong>{{ ulasan.user.name }}</strong>
+              <small class="text-muted">
+                {{ ulasan.createdAt.toFormat('dd LLLL yyyy, HH:mm') }}
+              </small>
+            </div>
+            <div class="mb-2 text-warning">
+              {{ '★'.repeat(ulasan.rating) }}{{ '☆'.repeat(5 - ulasan.rating) }}
+              <span class="ms-2 text-dark">{{ ulasan.rating }}/5</span>
+            </div>
+            <p class="mb-0">{{ ulasan.komentar }}</p>
+          </div>
+        @else
+          <div class="text-muted">Belum ada ulasan untuk wisata ini.</div>
+        @endeach
+      </div>
+    </div>
+  @endslot
+@endcomponent
